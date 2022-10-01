@@ -28,7 +28,6 @@ AutoResolv will look for libraries from original binary. If the linked libraries
 - IDA > 7.0 (IDA Python is required)
 - pyqt5 is required
 - pyelftools is required
-- lief is required (pyelftools can fail for some architectures)
 - HexRays decompilator for the target architecture
 
 # Preview

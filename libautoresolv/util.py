@@ -21,7 +21,6 @@ import os
 import subprocess
 import elftools
 import re
-import lief
 from elftools.elf.elffile import ELFFile
 
 from libautoresolv.error import *
@@ -82,19 +81,11 @@ def getAllFunsFromLib(path, libc):
 
     elf = ELFFile(file)
     funs = []
-    for section in elf.iter_sections():
-        if section.name == ".dynsym":
-            symbols = section.iter_symbols()
-            for symb in symbols:
+    for seg in elffile.iter_segments():
+        if seg.header['p_type'] == "PT_DYNAMIC":
+            for symb in seg.iter_symbols():
                 if symb.entry['st_shndx'] != 'SHN_UNDEF' and symb.entry['st_info']['type'] == 'STT_FUNC':
-                    funs.append(symb.name)
-
-    if funs == []:
-        gd = lief.parse(path)
-        for symb in gd.symbols:
-            if str(symb.type) == "SYMBOL_TYPES.FUNC" and symb.symbol_version.symbol_version_auxiliary is None: #we only want local fct
-                funs.append(symb.name)
-                    
+                    funs.append(symb.name)                    
     return funs
         
 def getLibsFromBin(binary):
