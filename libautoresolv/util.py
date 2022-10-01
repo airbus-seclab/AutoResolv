@@ -129,7 +129,7 @@ def getLibsFromBin(binary):
                 dir = os.listdir(rpath_)
             except FileNotFoundError:
                 print("[AutoResolv] RPATH dir not found on computer, you must enter librairies manually on AutoResolv")
-                return libs, rpath
+                return libs, None
 
             for lib in dir:
                 if not os.path.isdir(rpath_ + "/" + lib):
