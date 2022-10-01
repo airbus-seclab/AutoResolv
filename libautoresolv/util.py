@@ -244,7 +244,8 @@ def refactorExtern(signature, config):
     if s2 is not None and e2 is not None:
         all_funs2 = get_extern(s2,e2)
 
-    all_funs = all_funs1 | all_funs2
+    all_funs = dict(all_funs1)
+    all_funs.update(all_funs2)
     
     cpt = 0
     xref_cpt = 0
