@@ -347,7 +347,8 @@ class GUI_MAIN(QtWidgets.QDialog):
             if start is not None and end is not None:
                 wrapper_funs_plt2 = get_extern(start,end)
          
-            funs_binary = wrapper_funs_plt | wrapper_funs_plt2
+            funs_binary = dict(wrapper_funs_plt)
+            funs_binary.update(wrapper_funs_plt2)
 
             if len(funs_binary) == 0:
                 raise IdaGetFunsError
