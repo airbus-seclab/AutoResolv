@@ -81,7 +81,7 @@ def getAllFunsFromLib(path, libc):
 
     elf = ELFFile(file)
     funs = []
-    for seg in elffile.iter_segments():
+    for seg in elf.iter_segments():
         if seg.header['p_type'] == "PT_DYNAMIC":
             for symb in seg.iter_symbols():
                 if symb.entry['st_shndx'] != 'SHN_UNDEF' and symb.entry['st_info']['type'] == 'STT_FUNC':
