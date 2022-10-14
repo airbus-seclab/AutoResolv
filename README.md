@@ -25,7 +25,7 @@ AutoResolv use db caching for optimisation. You can clear the cache at any time 
 
 AutoResolv will look for libraries from original binary. If the linked libraries aren't on your computer or inaccessible, the tool won't work. 
 
-- IDA > 7.0 (IDA Python is required)
+- IDA > 7.0 (IDA Python3 is required)
 - pyqt5 is required
 - pyelftools is required
 - HexRays decompilator for the target architecture
@@ -49,7 +49,7 @@ AutoResolv will look for libraries from original binary. If the linked libraries
 # Installation
 
 ```bash
-pip3 install pyqt5 pyelftools lief
+pip3 install pyqt5 pyelftools
 cp AutoResolv.py libautoresolv -r path/to/your/idapro/plugins/
 ```
 
