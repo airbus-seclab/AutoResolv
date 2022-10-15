@@ -48,10 +48,19 @@ AutoResolv will look for libraries from original binary. If the linked libraries
 
 # Installation
 
+Linux
+
 ```bash
 pip3 install pyqt5 pyelftools
 cp AutoResolv.py libautoresolv -r path/to/your/idapro/plugins/
 ```
+
+Windows (Not fully tested, Bugs can occur)
+```cmd
+python.exe -m pip install pyqt5 pyelftools
+```
+then copy AutoResolv.py and libautoresolv in ```C:\Users\[USER]\AppData\Roaming\Hex-Rays\plugins\```
+
 
 # Usage 
 
