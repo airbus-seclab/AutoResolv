@@ -45,9 +45,6 @@ class GUI_MAIN(QtWidgets.QDialog):
         self.b_resolve = QPushButton(self)
         self.b_resolve.setObjectName(u"b_resolve")
         self.b_resolve.setGeometry(QRect(130, 240, 181, 51))
-        self.b_saveconf = QPushButton(self)
-        self.b_saveconf.setObjectName(u"b_saveconf")
-        self.b_saveconf.setGeometry(QRect(270, 100, 211, 51))
         self.c_libc = QCheckBox(self)
         self.c_libc.setObjectName(u"c_libc")
         self.c_libc.setGeometry(QRect(30, 70, 161, 23))
@@ -139,7 +136,6 @@ class GUI_MAIN(QtWidgets.QDialog):
         self.l_activeparam.setText(QCoreApplication.translate("AutoResolv", u"<html><head/><body><p><span style=\" font-size:14pt; font-weight:600;\">Active Parameters</span></p></body></html>", None))
         self.b_cleandb.setText(QCoreApplication.translate("AutoResolv", u"Clean DB Cache", None))
         self.b_resolve.setText(QCoreApplication.translate("AutoResolv", u"Resolve", None))
-        self.b_saveconf.setText(QCoreApplication.translate("AutoResolv", u"Save Parameters To Cache", None))
         self.c_libc.setText(QCoreApplication.translate("AutoResolv", u"resolve Libc functions", None))
         self.c_demangle.setText(QCoreApplication.translate("AutoResolv", u"demangle functions", None))
         self.c_comment.setText(QCoreApplication.translate("AutoResolv", u"comment IDA code", None))
@@ -181,8 +177,6 @@ class GUI_MAIN(QtWidgets.QDialog):
             self.lib_list.addItem(f"{lib} | {self.cache.libsinfo[lib]}")
             self.combobox_lib.addItem(lib)
 
-        self.lineedit_lib.setText(self.cache.libsinfo[next(iter(self.cache.libsinfo))])
-
         self.v_info_db_path.setText(self.cache.db_path)
         self.v_info_bin_path.setText(self.cache.bin_path)
         if self.cache.is_cached_data:
@@ -193,7 +187,10 @@ class GUI_MAIN(QtWidgets.QDialog):
 
     def setupAction(self):
         self.b_resolve.clicked.connect(self.on_button_resolv)
-        self.b_saveconf.clicked.connect(self.on_button_saveconf)
+        self.c_comment.clicked.connect(self.on_parameter_modified)
+        self.c_libc.clicked.connect(self.on_parameter_modified)
+        self.c_demangle.clicked.connect(self.on_parameter_modified)
+        self.c_verbose.clicked.connect(self.on_parameter_modified)
         self.combobox_lib.activated.connect(self.on_combox_event)
         self.b_cleandb.clicked.connect(self.on_button_cleandb)
         self.b_libchange.clicked.connect(self.on_button_libchange)
@@ -391,7 +388,7 @@ class GUI_MAIN(QtWidgets.QDialog):
 
             self.close()
 
-    def on_button_saveconf(self):
+    def on_parameter_modified(self):
         self.cache.CONFIG['libc'] = bool(self.c_libc.checkState())
         self.cache.CONFIG['demangle'] = bool(self.c_demangle.checkState())
         self.cache.CONFIG['comment'] = bool(self.c_comment.checkState())
@@ -400,7 +397,6 @@ class GUI_MAIN(QtWidgets.QDialog):
         self.cache.save_conf(self.cache.CONFIG)
         if self.cache.CONFIG['verbose']:
             print("[AutoResolv] Saved Active parameters to cache")
-        self.cache.parse_conf_cache()
 
     def on_combox_event(self):
         text = self.combobox_lib.currentText()
